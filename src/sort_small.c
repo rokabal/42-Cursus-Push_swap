@@ -6,7 +6,7 @@
 /*   By: rkassouf <rkassouf@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/30 19:14:48 by rkassouf          #+#    #+#             */
-/*   Updated: 2022/09/10 23:22:45 by rkassouf         ###   ########.fr       */
+/*   Updated: 2022/09/14 12:52:05 by rkassouf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,25 +41,6 @@ static void	sort_3(t_list **stack_a)
 	if (((nb[1] > nb[2]) && (nb[2] > nb[0]))
 		|| ((nb[0] > nb[2]) && (nb[2] > nb[1])))
 		ft_ra(stack_a, 0);
-}
-
-static int	find_rot(t_list **stack)
-{
-	int		smallest;
-	int		rot;
-	t_list	*tmp;
-
-	smallest = find_smallest(stack);
-	rot = 0;
-	tmp = *stack;
-	while (tmp->content != smallest)
-	{
-		rot++;
-		tmp = tmp->next;
-	}
-	if (rot <= 2)
-		return (rot);
-	return (rot - ft_lstsize(*stack));
 }
 
 static void	sort_5(t_list **stack_a, t_list **stack_b)

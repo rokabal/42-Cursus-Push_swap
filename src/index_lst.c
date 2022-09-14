@@ -6,13 +6,13 @@
 /*   By: rkassouf <rkassouf@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/10 23:17:24 by rkassouf          #+#    #+#             */
-/*   Updated: 2022/09/10 23:31:17 by rkassouf         ###   ########.fr       */
+/*   Updated: 2022/09/14 13:36:56 by rkassouf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/push_swap.h"
 
-int	find_smallest(t_list **stack)
+static int	find_smallest(t_list **stack)
 {
 	int		smallest;
 	t_list	*tmp;
@@ -28,9 +28,77 @@ int	find_smallest(t_list **stack)
 	return (smallest);
 }
 
-void	index_lst(t_list **stack)
+int	find_rot(t_list **stack)
 {
-	t_list	*index;
+	int		smallest;
+	int		rot;
+	t_list	*tmp;
 
-	return ;
+	smallest = find_smallest(stack);
+	rot = 0;
+	tmp = *stack;
+	while (tmp->content != smallest)
+	{
+		rot++;
+		tmp = tmp->next;
+	}
+	if (rot <= 2)
+		return (rot);
+	return (rot - ft_lstsize(*stack));
+}
+
+static void	lst_sort(t_list **stack, t_list **lst_sorted)
+{
+	t_list	*cur;
+	t_list	*tmp;
+	t_list	*prev;
+
+	*lst_sorted = NULL;
+	cur = (*stack);
+	while (cur != NULL)
+	{
+		if ((*lst_sorted) == NULL || ((*lst_sorted)->content > cur->content))
+			ft_lstadd_front(lst_sorted, ft_lstnew(cur->content));
+		else
+		{
+			tmp = *lst_sorted;
+			while ((tmp != NULL) && (tmp->content < cur->content))
+			{
+				prev = tmp;
+				tmp = tmp->next;
+			}
+			prev->next = ft_lstnew(cur->content);
+			prev->next->next = tmp;
+		}
+		cur = cur->next;
+	}
+}
+
+void	lst_to_index(t_list **stack, t_list **indexed)
+{
+	int		i;
+	int		size;
+	t_list	*tmp;
+	t_list	*cur;
+	t_list	*lst_sorted;
+
+	lst_sort(stack, &lst_sorted);
+	size = ft_lstsize(*stack);
+	cur = *stack;
+	while (ft_lstsize(*indexed) != size)
+	{
+		i = 0;
+		tmp = lst_sorted;
+		while (cur->content != tmp->content)
+		{
+			tmp = tmp->next;
+			i++;
+		}
+		if (*indexed == NULL)
+			ft_lstadd_front(indexed, ft_lstnew(i));
+		else
+			ft_lstadd_back(indexed, ft_lstnew(i));
+		cur = cur->next;
+	}
+	lst_free(&lst_sorted);
 }

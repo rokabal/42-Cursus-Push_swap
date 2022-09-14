@@ -6,7 +6,7 @@
 /*   By: rkassouf <rkassouf@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/25 23:14:45 by rkassouf          #+#    #+#             */
-/*   Updated: 2022/09/10 23:21:16 by rkassouf         ###   ########.fr       */
+/*   Updated: 2022/09/14 11:16:42 by rkassouf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@
 # include <limits.h>
 # include "../libft/inc/libft.h"
 # include <stdio.h>
+
+# define ERR	"Error\n"
 
 void	ft_sa(t_list **stack_a, int ss);
 void	ft_sb(t_list **stack_b, int ss);
@@ -33,7 +35,9 @@ void	ft_pb(t_list **stack_a, t_list **stack_b);
 void	lst_free(t_list **stack);
 void	set_stack(int argc, char **argv, t_list **stack_a);
 void	sort_small(t_list **stack_a, t_list **stack_b, int size);
-int		find_smallest(t_list **stack);
+void	lst_to_index(t_list **stack, t_list **indexed);
+void	radix_sort(t_list **indexed, t_list **stack_b);
+int		find_rot(t_list **stack);
 int		sorted(t_list **stack);
 
 #endif
