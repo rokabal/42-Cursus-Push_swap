@@ -6,7 +6,7 @@
 /*   By: rkassouf <rkassouf@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/25 23:14:45 by rkassouf          #+#    #+#             */
-/*   Updated: 2022/09/14 11:16:42 by rkassouf         ###   ########.fr       */
+/*   Updated: 2022/09/28 15:41:14 by rkassouf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,23 +21,60 @@
 
 # define ERR	"Error\n"
 
-void	ft_sa(t_list **stack_a, int ss);
-void	ft_sb(t_list **stack_b, int ss);
-void	ft_ss(t_list **stack_a, t_list **stack_b);
-void	ft_ra(t_list **stack_a, int rr);
-void	ft_rb(t_list **stack_b, int rr);
-void	ft_rr(t_list **stack_a, t_list **stack_b);
-void	ft_rra(t_list **stack_a, int rrr);
-void	ft_rrb(t_list **stack_b, int rrr);
-void	ft_rrr(t_list **stack_a, t_list **stack_b);
-void	ft_pa(t_list **stack_a, t_list **stack_b);
-void	ft_pb(t_list **stack_a, t_list **stack_b);
+typedef struct s_cmd
+{
+	char			*cmd;
+	struct s_cmd	*next;
+}	t_cmd;
+
+typedef struct s_ps
+{
+	int		size;
+	t_list	*stack_a;
+	t_list	*stack_b;
+	t_list	*indexed;
+	t_cmd	*cmds;
+}	t_ps;
+
+/*
+ **		Operations
+ */
+
+void	ft_pa(t_ps *ps);
+void	ft_pb(t_ps *ps);
+void	ft_sa(t_ps *ps, int both);
+void	ft_sb(t_ps *ps, int both);
+void	ft_ss(t_ps *ps, int both);
+void	ft_ra(t_ps *ps, int both);
+void	ft_rb(t_ps *ps, int both);
+void	ft_rr(t_ps *ps);
+void	ft_rra(t_ps *ps, int both);
+void	ft_rrb(t_ps *ps, int both);
+void	ft_rrr(t_ps *ps);
+
+/*
+ **		Sorting
+ */
+
+void	sort_small(t_ps *ps);
+void	radix_sort(t_ps *ps);
+int		sorted(t_list **stack);
+
+/*
+ **		Utils and parsing
+ */
+
+void	lst_to_index(t_ps *ps);
+int		find_rot(t_list **stack);
 void	lst_free(t_list **stack);
 void	set_stack(int argc, char **argv, t_list **stack_a);
-void	sort_small(t_list **stack_a, t_list **stack_b, int size);
-void	lst_to_index(t_list **stack, t_list **indexed);
-void	radix_sort(t_list **indexed, t_list **stack_b);
-int		find_rot(t_list **stack);
-int		sorted(t_list **stack);
+
+/*
+ **		Commands
+ */
+
+t_cmd	*new_cmd(char *cmd);
+void	print_cmds(t_cmd **cmds);
+void	add_cmd(t_cmd **cmds, t_cmd *new_cmd);
 
 #endif

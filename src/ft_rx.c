@@ -6,55 +6,55 @@
 /*   By: rkassouf <rkassouf@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/08 17:22:50 by rkassouf          #+#    #+#             */
-/*   Updated: 2022/09/10 14:39:33 by rkassouf         ###   ########.fr       */
+/*   Updated: 2022/09/28 20:43:07 by rkassouf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/push_swap.h"
 
-void	ft_ra(t_list **stack_a, int rr)
+void	ft_ra(t_ps *ps, int both)
 {
 	t_list	*first;
 	t_list	*last;
 
-	if (*stack_a == NULL)
+	if (ps->indexed == NULL)
 		return ;
-	if ((*stack_a)->next == NULL)
+	if ((ps->indexed)->next == NULL)
 		return ;
-	first = *stack_a;
-	last = *stack_a;
+	first = ps->indexed;
+	last = ps->indexed;
 	while (last->next != NULL)
 		last = last->next;
-	*stack_a = first->next;
+	ps->indexed = first->next;
 	first->next = NULL;
 	last->next = first;
-	if (!rr)
-		write(1, "ra\n", 3);
+	if (!both)
+		add_cmd(&ps->cmds, new_cmd("ra\n"));
 }
 
-void	ft_rb(t_list **stack_b, int rr)
+void	ft_rb(t_ps *ps, int both)
 {
 	t_list	*first;
 	t_list	*last;
 
-	if (*stack_b == NULL)
+	if (ps->stack_b == NULL)
 		return ;
-	if ((*stack_b)->next == NULL)
+	if ((ps->stack_b)->next == NULL)
 		return ;
-	first = *stack_b;
-	last = *stack_b;
+	first = ps->stack_b;
+	last = ps->stack_b;
 	while (last->next != NULL)
 		last = last->next;
-	*stack_b = first->next;
+	ps->stack_b = first->next;
 	first->next = NULL;
 	last->next = first;
-	if (!rr)
-		write(1, "rb\n", 3);
+	if (!both)
+		add_cmd(&ps->cmds, new_cmd("rb\n"));
 }
 
-void	ft_rr(t_list **stack_a, t_list **stack_b)
+void	ft_rr(t_ps *ps)
 {
-	ft_ra(stack_a, 1);
-	ft_rb(stack_b, 1);
-	write(1, "rr\n", 3);
+	ft_ra(ps, 1);
+	ft_rb(ps, 1);
+	add_cmd(&ps->cmds, new_cmd("rr\n"));
 }

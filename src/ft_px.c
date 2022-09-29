@@ -6,34 +6,34 @@
 /*   By: rkassouf <rkassouf@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/08 16:53:12 by rkassouf          #+#    #+#             */
-/*   Updated: 2022/09/10 14:27:42 by rkassouf         ###   ########.fr       */
+/*   Updated: 2022/09/28 20:40:27 by rkassouf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/push_swap.h"
 
-void	ft_pa(t_list **stack_a, t_list **stack_b)
+void	ft_pa(t_ps *ps)
 {
 	t_list	*tmp;
 
-	if (*stack_b == NULL)
+	if (ps->stack_b == NULL)
 		return ;
-	tmp = *stack_b;
-	*stack_b = (*stack_b)->next;
-	tmp->next = *stack_a;
-	*stack_a = tmp;
-	write(1, "pa\n", 3);
+	tmp = ps->stack_b;
+	ps->stack_b = (ps->stack_b)->next;
+	tmp->next = ps->indexed;
+	ps->indexed = tmp;
+	add_cmd(&ps->cmds, new_cmd("pa\n"));
 }
 
-void	ft_pb(t_list **stack_a, t_list **stack_b)
+void	ft_pb(t_ps *ps)
 {
 	t_list	*tmp;
 
-	if (*stack_a == NULL)
+	if (ps->indexed == NULL)
 		return ;
-	tmp = *stack_a;
-	*stack_a = (*stack_a)->next;
-	tmp->next = *stack_b;
-	*stack_b = tmp;
-	write(1, "pb\n", 3);
+	tmp = ps->indexed;
+	ps->indexed = (ps->indexed)->next;
+	tmp->next = ps->stack_b;
+	ps->stack_b = tmp;
+	add_cmd(&ps->cmds, new_cmd("pb\n"));
 }

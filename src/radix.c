@@ -6,33 +6,38 @@
 /*   By: rkassouf <rkassouf@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 18:49:24 by rkassouf          #+#    #+#             */
-/*   Updated: 2022/09/14 14:40:27 by rkassouf         ###   ########.fr       */
+/*   Updated: 2022/09/29 16:15:12 by rkassouf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/push_swap.h"
 
-static int	ft_pow(int base, int exp)
+static int	get_bits(int size)
 {
+	int	bits;
 	int	result;
 
-	result = base;
-	while (--exp > 0)
-		result *= base;
-	return (result);
+	result = 2;
+	bits = 1;
+	while (result < size)
+	{
+		result *= 2;
+		++bits;
+	}
+	return (bits);
 }
 
-int	rotate(t_list **indexed, t_list **head, int i)
+static int	rotate(t_ps *ps, t_list **head, int i)
 {
 	int		rot;
 	t_list	*tmp;
 
 	rot = 0;
-	tmp = *indexed;
+	tmp = ps->indexed;
 	while (tmp != NULL)
 	{
 		if ((tmp->content) & (1 << i))
-			rot++;
+			++rot;
 		else
 			break ;
 		tmp = tmp->next;
@@ -42,35 +47,40 @@ int	rotate(t_list **indexed, t_list **head, int i)
 		while (rot > 0)
 		{
 			if (*head == NULL)
-				*head = *indexed;
-			ft_ra(indexed, 0);
-			rot--;
+				*head = ps->indexed;
+			ft_ra(ps, 0);
+			--rot;
 		}
 		return (1);
 	}
 	return (0);
 }
 
-void	radix_sort(t_list **indexed, t_list **stack_b)
+void	radix_sort(t_ps *ps)
 {
-	int		i;
-	int		j;
-	int		size;
+	int		i[2];
 	t_list	*head;
 
-	size = ft_lstsize(*indexed);
-	i = 3;
-	while (ft_pow(2, i) <= size)
-		i++;
-	j = -1;
-	while (++j < i)
+	i[0] = get_bits(ps->size);
+	i[1] = -1;
+	while (++i[1] < i[0])
 	{
 		head = NULL;
-		while (rotate(indexed, &head, j))
-			ft_pb(indexed, stack_b);
-		while (head->content != (*indexed)->content)
-			ft_ra(indexed, 0);
-		while (ft_lstsize(*stack_b))
-			ft_pa(indexed, stack_b);
+		while (rotate(ps, &head, i[1]))
+			ft_pb(ps);
+		while (head->content != ps->indexed->content)
+			ft_ra(ps, 0);
+		head = NULL;
+		while (ft_lstsize(ps->stack_b) && ps->stack_b != head)
+		{
+			if (((ps->stack_b->content >> (i[1] + 1)) & 1) || i[1] == i[0] -1)
+				ft_pa(ps);
+			else
+			{
+				if (head == NULL)
+					head = ps->stack_b;
+				ft_rb(ps, 0);
+			}
+		}
 	}
 }

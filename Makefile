@@ -6,7 +6,7 @@
 #    By: rkassouf <rkassouf@student.42abudhabi.ae>  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/07/25 17:04:27 by rkassouf          #+#    #+#              #
-#    Updated: 2022/09/13 16:54:55 by rkassouf         ###   ########.fr        #
+#    Updated: 2022/09/16 15:45:52 by rkassouf         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -44,7 +44,7 @@ SRCS			= ft_px.c				ft_rrx.c \
 				  ft_rx.c				ft_sx.c \
 				  parse.c				push_swap.c \
 				  sort_small.c			index_lst.c \
-				  radix.c
+				  radix.c				cmds.c
 
 # Some tricks in order to get the makefile doing his job.
 

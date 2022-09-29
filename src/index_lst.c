@@ -6,7 +6,7 @@
 /*   By: rkassouf <rkassouf@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/10 23:17:24 by rkassouf          #+#    #+#             */
-/*   Updated: 2022/09/14 13:36:56 by rkassouf         ###   ########.fr       */
+/*   Updated: 2022/09/28 17:00:21 by rkassouf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,30 +74,30 @@ static void	lst_sort(t_list **stack, t_list **lst_sorted)
 	}
 }
 
-void	lst_to_index(t_list **stack, t_list **indexed)
+void	lst_to_index(t_ps *ps)
 {
-	int		i;
-	int		size;
+	int		i[2];
 	t_list	*tmp;
 	t_list	*cur;
 	t_list	*lst_sorted;
 
-	lst_sort(stack, &lst_sorted);
-	size = ft_lstsize(*stack);
-	cur = *stack;
-	while (ft_lstsize(*indexed) != size)
+	lst_sort(&ps->stack_a, &lst_sorted);
+	cur = ps->stack_a;
+	i[1] = 0;
+	while (i[1] != ps->size)
 	{
-		i = 0;
+		i[0] = 0;
 		tmp = lst_sorted;
 		while (cur->content != tmp->content)
 		{
 			tmp = tmp->next;
-			i++;
+			++i[0];
 		}
-		if (*indexed == NULL)
-			ft_lstadd_front(indexed, ft_lstnew(i));
+		if (ps->indexed == NULL)
+			ft_lstadd_front(&ps->indexed, ft_lstnew(i[0]));
 		else
-			ft_lstadd_back(indexed, ft_lstnew(i));
+			ft_lstadd_back(&ps->indexed, ft_lstnew(i[0]));
+		++i[1];
 		cur = cur->next;
 	}
 	lst_free(&lst_sorted);

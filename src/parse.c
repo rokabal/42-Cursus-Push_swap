@@ -6,7 +6,7 @@
 /*   By: rkassouf <rkassouf@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/26 13:46:55 by rkassouf          #+#    #+#             */
-/*   Updated: 2022/09/14 15:04:12 by rkassouf         ###   ########.fr       */
+/*   Updated: 2022/09/28 17:06:17 by rkassouf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ static int	is_dup(t_list **stack, int value)
 	return (0);
 }
 
-char	*join_args(int argc, char **argv)
+static char	*join_args(int argc, char **argv)
 {
 	int		i;
 	char	*tmp;
@@ -80,7 +80,7 @@ char	*join_args(int argc, char **argv)
 	return (joined);
 }
 
-void	fill_stack(t_list **stack, char ***splitted, int value)
+static void	fill_stack(t_list **stack, char ***splitted, int value)
 {
 	if (is_dup(stack, value))
 	{
@@ -113,6 +113,7 @@ void	set_stack(int argc, char **argv, t_list **stack)
 		if (!is_int(splitted[i]))
 		{
 			free_split(splitted);
+			lst_free(stack);
 			exit_on_err(STDERR_FILENO, ERR);
 		}
 		fill_stack(stack, &splitted, ft_atoi(splitted[i]));

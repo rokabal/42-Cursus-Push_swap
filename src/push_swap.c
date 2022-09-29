@@ -6,7 +6,7 @@
 /*   By: rkassouf <rkassouf@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/25 22:20:39 by rkassouf          #+#    #+#             */
-/*   Updated: 2022/09/14 14:56:36 by rkassouf         ###   ########.fr       */
+/*   Updated: 2022/09/28 20:50:15 by rkassouf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,29 +44,22 @@ int	sorted(t_list **stack)
 
 int	main(int argc, char **argv)
 {
-	int		size;
-	t_list	*stack_a;
-	t_list	*stack_b;
-	t_list	*indexed;
+	t_ps	ps;
 
-	stack_a = NULL;
-	stack_b = NULL;
-	indexed = NULL;
+	ps = (t_ps){0, NULL, NULL, NULL, NULL};
 	if (argc < 2)
 		return (0);
-	set_stack(argc, argv, &stack_a);
-	if (!sorted(&stack_a))
+	set_stack(argc, argv, &ps.stack_a);
+	if (!sorted(&ps.stack_a))
 	{
-		size = ft_lstsize(stack_a);
-		if (size <= 5)
-			sort_small(&stack_a, &stack_b, size);
+		ps.size = ft_lstsize(ps.stack_a);
+		lst_to_index(&ps);
+		lst_free(&ps.stack_a);
+		if (ps.size <= 5)
+			sort_small(&ps);
 		else
-		{
-			lst_to_index(&stack_a, &indexed);
-			radix_sort(&indexed, &stack_b);
-		}
+			radix_sort(&ps);
 	}
-	lst_free(&stack_a);
-	if (indexed != NULL)
-		lst_free(&indexed);
+	print_cmds(&ps.cmds);
+	lst_free(&ps.indexed);
 }

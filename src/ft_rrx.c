@@ -6,61 +6,61 @@
 /*   By: rkassouf <rkassouf@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/08 22:38:07 by rkassouf          #+#    #+#             */
-/*   Updated: 2022/09/10 14:42:35 by rkassouf         ###   ########.fr       */
+/*   Updated: 2022/09/28 20:43:21 by rkassouf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/push_swap.h"
 
-void	ft_rra(t_list **stack_a, int rrr)
+void	ft_rra(t_ps *ps, int both)
 {
 	t_list	*tmp;
 	t_list	*last;
 
-	if (*stack_a == NULL)
+	if (ps->indexed == NULL)
 		return ;
-	if ((*stack_a)->next == NULL)
+	if ((ps->indexed)->next == NULL)
 		return ;
-	tmp = *stack_a;
-	last = *stack_a;
+	tmp = ps->indexed;
+	last = ps->indexed;
 	while (last->next != NULL)
 	{
 		tmp = last;
 		last = last->next;
 	}
-	last->next = *stack_a;
-	*stack_a = last;
+	last->next = ps->indexed;
+	ps->indexed = last;
 	tmp->next = NULL;
-	if (!rrr)
-		write(1, "rra\n", 4);
+	if (!both)
+		add_cmd(&ps->cmds, new_cmd("rra\n"));
 }
 
-void	ft_rrb(t_list **stack_b, int rrr)
+void	ft_rrb(t_ps *ps, int both)
 {
 	t_list	*tmp;
 	t_list	*last;
 
-	if (*stack_b == NULL)
+	if (ps->stack_b == NULL)
 		return ;
-	if ((*stack_b)->next == NULL)
+	if ((ps->stack_b)->next == NULL)
 		return ;
-	tmp = *stack_b;
-	last = *stack_b;
+	tmp = ps->stack_b;
+	last = ps->stack_b;
 	while (last->next != NULL)
 	{
 		tmp = last;
 		last = last->next;
 	}
-	last->next = *stack_b;
-	*stack_b = last;
+	last->next = ps->stack_b;
+	ps->stack_b = last;
 	tmp->next = NULL;
-	if (!rrr)
-		write(1, "rrb\n", 4);
+	if (!both)
+		add_cmd(&ps->cmds, new_cmd("rrb\n"));
 }
 
-void	ft_rrr(t_list **stack_a, t_list **stack_b)
+void	ft_rrr(t_ps *ps)
 {
-	ft_rra(stack_a, 1);
-	ft_rrb(stack_b, 1);
-	write(1, "rrr\n", 4);
+	ft_rra(ps, 1);
+	ft_rrb(ps, 1);
+	add_cmd(&ps->cmds, new_cmd("rrr\n"));
 }
